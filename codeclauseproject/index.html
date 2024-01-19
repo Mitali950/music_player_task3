@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Music Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   
+    <link rel="stylesheet" href="in.css" type="text/css"/>
+
+
+</head>
+<body>
+    <h1 id="head">MUSIC PLAYER</h1><br>
+      <div class="main_div">
+        <div class="music_container">
+
+
+          <div class="m_box">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+          </div>
+
+            <div class="box">
+              <nav>
+                <ul>
+                  <li><h1 id="mainh">SONG DETAILS</h1></li><br>
+                  <li><h1 id="navc">Heeriye</h1></li>
+                  <li><h1 id="navc">Man Masat Magan</h1></li>
+                  <li><h1 id="navc">Dhoop Mai Tuejh Se Thandak</h1></li>
+                  <li><h1 id="navc">Hawayein</h1></li>
+                  <li><h1 id="navc">Samjhawan</h1></a></li>
+                  <li><h1 id="navc">Bedardeya</h1></a></li>
+                  <li><h1 id="navc">Phirkabhi</h1></a></li>
+
+                </ul>
+              </nav>
+            </div>
+
+               
+      <h2 id="title">Heeriye</h2><br>
+        <h3 id="artist">Arijit Singh</h3>
+
+         
+        <div class="image-container">
+            <img src="images/arii.jpg" alt="" />
+            
+        </div>
+        <audio src="music/heeriye.m4a"></audio>
+          
+           <div class="progressbar-container" id="progressbar-container">
+            <div class="progress-duration-meter">
+             <div id="current_time">0:00</div>
+             <div id="duration">04:56</div>
+          </div>
+            <div class="progress_div" id="progress_div">
+               <div class="progress" id="progress"></div>
+            </div>
+
+            </div>  
+
+
+
+
+         <div class="music-controls">
+            <i class=" fas fa-solid fa-backward-step" id="prev" title="Previous"></i>
+            <i class="fas fa-solid fa-play main_button" id="play" title="Play"></i>
+            <i class="fas fa-solid fa-forward-step" id="next" title="Next"></i>
+          
+         </div>
+
+
+
+      </div>
+
+    
+    </div>
+    
+    <script>
+
+          //navigationbutton
+
+          let m_box = document.querySelector(".m_box");
+            let box = document.querySelector(".box");
+
+            m_box.onclick = function() {
+              m_box.classList.toggle("active");
+              box.classList.toggle("active");
+            }
+           
+            document.onclick = function(e) {
+            if (!m_box.contains(e.target) && !box.contains(e.target)){
+            m_box.classList.remove("active");
+              box.classList.remove("active");
+            }
+            }
+
+
+            //music_contanier
+             const music = document.querySelector("audio");
+             const img = document.querySelector("img");
+             const play = document.getElementById("play");
+             const artist = document.getElementById("artist");
+             const title = document.getElementById("title");
+             const prev = document.getElementById("prev");
+             const next = document.getElementById("next");
+             
+            let progress = document.getElementById("progress");
+            let total_duration = document.getElementById("duration");
+            let current_time = document.getElementById("current_time");
+            
+           const progress_div = document.getElementById("progress_div");
+
+            const songs = [
+              {
+                name: "heeriye",
+                title: "Heeriye",
+                artist: "Arijit Singh",
+                
+              },
+              {
+                name: "man",
+                title: "Man Mast",
+                artist: "Arijit Singh",
+                
+              },
+              {
+                name: "dhoop",
+                title: "Dhoop Mai",
+                artist: "Arijit Singh",
+                
+              },
+              {
+                name: "haw",
+                title: "Hawayein",
+                artist: "Arijit Singh",
+                
+              },
+              {
+                name: "sam",
+                title: "Samjhawan",
+                artist: "Arijit Singh",
+                
+              },
+              {
+                name: "bed",
+                title: "Bedardeya",
+                artist: "Arijit Singh",
+                
+              },
+              {
+                name: "phirkabhi",
+                title: "Phirkabhi",
+                artist: "Arijit Singh",
+                
+              },
+            ];
+
+
+          let  isPlaying = false;
+
+             // for play function
+
+             const playMusic = () => {
+              isPlaying = true;    
+              music.play();
+             play.classList.replace("fa-play", "fa-pause");
+                   img.classList.add("anime");
+
+             };
+            
+            // for pause function
+
+             const pauseMusic = () => {
+              isPlaying = false;    
+              music.pause();
+             play.classList.replace("fa-pause", "fa-play");
+                   img.classList.remove("anime");
+
+             };
+  
+             play.addEventListener("click", () => {
+              isPlaying ? pauseMusic() : playMusic();
+             });
+
+            // changing the music data 
+           
+            const loadSong = (songs) => {
+              title.textContent = songs.title;
+              artist.textContent = songs.artist;
+              music.src = "music/" + songs.name + ".m4a";
+              
+            };
+              
+            songIndex = 0;
+           // loadSong(songs[1]);
+
+
+            const nextSong = () => {
+              songIndex = (songIndex + 1) % songs.length;
+              loadSong(songs[songIndex]);
+              playMusic();
+            };
+            
+
+            const prevSong = () => {
+              songIndex = (songIndex - 1 + songs.length) % songs.length;
+              loadSong(songs[songIndex]);
+              playMusic();
+            };
+
+            
+            next.addEventListener("click", nextSong);
+           prev.addEventListener("click", prevSong);
+
+            
+
+
+
+            // progress js work
+
+            music.addEventListener("timeupdate", (event) => {
+             //console.log(event);
+             const { currentTime, duration } = event.srcElement;
+             let progress_time = (currentTime / duration) * 100;
+             progress.style.width = `${progress_time}%`;
+              
+             // music duration time
+            
+             let min_duration = Math.floor(duration / 60);
+             let sec_duration = Math.floor(duration % 60);
+             
+             let tot_duration = `${min_duration}:${sec_duration}`;
+             if(duration) {
+              total_duration.textContent =  `${tot_duration}`;
+             }
+            
+             // current duration update
+             let min_currentTime = Math.floor(currentTime / 60);
+             let sec_currentTime = Math.floor(currentTime % 60);
+             
+             
+             if(sec_currentTime < 10){
+              sec_currentTime = `0${sec_currentTime}`;
+             }
+             let tot_currentTime = `${min_currentTime}:${sec_currentTime}`;
+             current_time.textContent =  `${tot_currentTime}`;
+             
+
+
+            });
+          
+            progress_div.addEventListener("click", (event) => { 
+              console.log(event);
+              const { duration } = music;
+             
+              let move_progress = 
+              (event.offsetX / event.srcElement.clientWidth) * duration;
+              //console.log(duration);
+              //console.log(move_progress);
+              
+              music.currentTime = move_progress;
+
+
+            });
+
+
+            music.addEventListener("ended", nextSongs);
+
+next.addEventListener("click", nextSong);
+prev.addEventListener("click", prevSong);
+
+          
+          </script>
+</body>
+</html>  
